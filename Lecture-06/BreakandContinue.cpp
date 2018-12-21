@@ -9,7 +9,8 @@ int main(){
 	while(i<=10){
 
 		if(i==5){
-			i++;
+			i++; // Updation is required before
+			// continue
 			continue;
 		}
 		cout<<i<<" ";
