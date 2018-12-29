@@ -42,6 +42,13 @@ int main(){
 			cout<<a[i][j]<<" ";
 		}cout<<endl;
 	}
+
+	// Delete
+	for(int i=0;i<r;i++){
+		delete []a[i];
+	}	
+	delete[]a;
+	
 	cout<<endl;
 
 
