@@ -144,22 +144,92 @@ void LevelOrder(node* root){
 	}
 }
 
+
+node* LevelOrderInput(){
+	queue<node*> q;
+	int data;
+	
+	cout<<"Enter root node : ";
+	cin>>data;
+	node* root=new node(data);
+	q.push(root);
+	while(!q.empty()){
+		node* temp=q.front();
+		q.pop();
+		cout<<"Enter children of"<<temp->data<<" : ";
+		int c1,c2;
+		cin>>c1>>c2;
+
+		if(c1!=-1){
+			temp->left=new node(c1);
+			q.push(temp->left);
+		}
+		if(c2!=-1){
+			temp->right=new node(c2);
+			q.push(temp->right);
+		}
+	}
+	return root;
+}
+
+void Mirror(node* root){
+	if(root==NULL){
+		return;
+	}
+	swap(root->left,root->right);
+	Mirror(root->left);
+	Mirror(root->right);
+} 
+
+int indx=0;
+
+node* CreateTree(int *in,int *pre,int s,int e){
+	if(s>e){
+		return NULL;
+	}
+
+	int data=pre[indx];
+	node* root=new node(data);
+	indx++;
+
+	int k=-1;
+	for(int i=s;i<=e;i++){
+		if(data==in[i]){
+			k=i;
+			break;
+		}
+	}
+
+	root->left=CreateTree(in,pre,s,k-1);
+	root->right=CreateTree(in,pre,k+1,e);
+
+	return root;
+}
+
+
+
 int main(){
 	node* root=buildTree();
+
 	PreOrder(root);
 	cout<<endl;
 	InOrder(root);
+	// cout<<endl;
+	// PostOrder(root);
 	cout<<endl;
-	PostOrder(root);
-	cout<<endl;
-	cout<<"Number of Nodes: "<<countNodes(root)<<endl;
-	cout<<"Height of Tree : "<<Height(root)<<endl;
-	cout<<"Diameter : "<<Diameter(root)<<endl;
-	Pair p=fastDiameter(root);
-	cout<<"Fast Height : "<<p.height<<endl;
-	cout<<"Fast Diameter : "<<p.diameter<<endl;
-	LevelOrder(root);
 
+	LevelOrder(root);
+	// Mirror(root);
+	// LevelOrder(root);
+	int pre[]={8,10,1,6,4,7,3,14,13};
+	int in[]={1,10,4,6,7,8,3,13,14};
+	int n=sizeof(pre)/sizeof(int);
+
+	root=CreateTree(in,pre,0,n-1);
+
+	LevelOrder(root);
 	cout<<endl;     
+
+
 	return 0;
 }
