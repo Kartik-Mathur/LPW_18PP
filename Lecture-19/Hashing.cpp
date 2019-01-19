@@ -142,7 +142,18 @@ public:
 	}
 
 	void Delete(string key){
+		int i=hashFn(key);
+		node<T>* temp=Bucket[i];
 
+		if(temp==NULL){
+			return;
+		}
+		else if(temp->key==key){
+
+		}
+		else{
+			
+		}
 	}
 
 };
